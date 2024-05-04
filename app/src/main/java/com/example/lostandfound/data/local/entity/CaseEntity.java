@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 public class CaseEntity {
     @PrimaryKey(autoGenerate = true)
     private int id;
-
+    public String name;
     private String status;
     private String phone;
     private String description;
@@ -15,7 +15,8 @@ public class CaseEntity {
     private String location;
 
     // Constructor
-    public CaseEntity(String status, String phone, String description, String date, String location) {
+    public CaseEntity(String name,String status, String phone, String description, String date, String location) {
+        this.name = name;
         this.status = status;
         this.phone = phone;
         this.description = description;

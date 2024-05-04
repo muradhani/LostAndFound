@@ -61,7 +61,7 @@ public class CreateAdvertFragment extends Fragment implements OnEntitySavedListe
                     RadioButton selectedRadioButton = view.findViewById(selectedRadioButtonId);
                     selectedRadioButtonText = selectedRadioButton.getText().toString();
                 }
-                CaseEntity entity = new CaseEntity(selectedRadioButtonText, phone, description, date, location);
+                CaseEntity entity = new CaseEntity(name,selectedRadioButtonText, phone, description, date, location);
                 mViewModel.saveEntity(entity);
             }
         });
