@@ -20,8 +20,8 @@ public interface CaseDao {
     @Delete
     void delete(CaseEntity entity);
 
-    @Query("DELETE FROM your_table_name WHERE id = :id")
-    void deleteById(int id);
+    @Query("DELETE FROM your_table_name WHERE name = :name")
+    void deleteById(String name);
 
     // You can add more queries here as needed
 }

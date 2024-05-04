@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,8 +24,8 @@ import com.example.lostandfound.ui.viewModels.OnItemsLoadedListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemsListFragment extends Fragment implements OnItemsLoadedListener {
-
+public class ItemsListFragment extends Fragment implements OnItemsLoadedListener ,OnItemClickListener {
+    NavController navController;
     private ItemsListViewModel mViewModel;
 
     private FragmentItemsListBinding binding;
@@ -46,14 +48,33 @@ public class ItemsListFragment extends Fragment implements OnItemsLoadedListener
         super.onViewCreated(view, savedInstanceState);
         mViewModel.initiate(getContext(),this);
         // Initialize the adapter
-        adapter = new ItemsListRvAdapter(new ArrayList<>());
+        adapter = new ItemsListRvAdapter(new ArrayList<>(),this);
         mViewModel.getAllItemsAsync();
         // Set the adapter to the RecyclerView
         binding.lotFoundRv.setAdapter(adapter);
+        navController = NavHostFragment.findNavController(this);
     }
 
     @Override
     public void onItemsLoaded(List<CaseEntity> items) {
         adapter.setData(items);
+    }
+
+    @Override
+    public void onItemClick(CaseEntity item) {
+        Bundle bundle = new Bundle();
+
+        // Put the data into the bundle
+        bundle.putString("status", item.getStatus());
+        bundle.putString("name", item.name);
+        bundle.putString("date", item.getDate());
+        bundle.putString("location", item.getDescription());
+        navController.navigate(R.id.action_itemsListFragment_to_removeItemFragment,bundle);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mViewModel.getAllItemsAsync();
     }
 }

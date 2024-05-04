@@ -70,5 +70,6 @@ public class CreateAdvertFragment extends Fragment implements OnEntitySavedListe
     @Override
     public void onEntitySaved() {
         Toast.makeText(requireContext(),"saved successfully",Toast.LENGTH_SHORT).show();
+        navController.popBackStack();
     }
 }
