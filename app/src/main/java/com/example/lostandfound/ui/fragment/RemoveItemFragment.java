@@ -61,21 +61,14 @@ public class RemoveItemFragment extends Fragment implements OnItemRemovedListene
             binding.tvName.setText(name);
             binding.tvDate.setText(date);
             binding.tvDescription.setText(description);
-
-            // Calculate the number of days between the current date and the received date
             try {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
                 Date currentDate = Calendar.getInstance().getTime();
                 Date receivedDate = dateFormat.parse(date);
-
-                // Calculate the difference in milliseconds
                 long differenceMillis = receivedDate.getTime() - currentDate.getTime();
-
-                // Convert milliseconds to days and take the absolute value
                 long differenceDays = Math.abs(differenceMillis / (1000 * 60 * 60 * 24));
-
-                // Set the calculated days to a TextView or wherever you want to display it
-                binding.tvDate.setText("Days difference: " + differenceDays);
+                String daysLabel = (differenceDays == 1) ? "day ago" : "days ago";
+                binding.tvDate.setText(differenceDays + " " + daysLabel);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
