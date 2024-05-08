@@ -19,6 +19,11 @@ import com.example.lostandfound.databinding.FragmentRemoveItemBinding;
 import com.example.lostandfound.ui.viewModels.OnItemRemovedListener;
 import com.example.lostandfound.ui.viewModels.RemoveItemViewModel;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class RemoveItemFragment extends Fragment implements OnItemRemovedListener {
 
     private RemoveItemViewModel mViewModel;
@@ -32,6 +37,7 @@ public class RemoveItemFragment extends Fragment implements OnItemRemovedListene
     }
     private FragmentRemoveItemBinding binding;
     String name ;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -55,7 +61,26 @@ public class RemoveItemFragment extends Fragment implements OnItemRemovedListene
             binding.tvName.setText(name);
             binding.tvDate.setText(date);
             binding.tvDescription.setText(description);
+
+            // Calculate the number of days between the current date and the received date
+            try {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                Date currentDate = Calendar.getInstance().getTime();
+                Date receivedDate = dateFormat.parse(date);
+
+                // Calculate the difference in milliseconds
+                long differenceMillis = receivedDate.getTime() - currentDate.getTime();
+
+                // Convert milliseconds to days and take the absolute value
+                long differenceDays = Math.abs(differenceMillis / (1000 * 60 * 60 * 24));
+
+                // Set the calculated days to a TextView or wherever you want to display it
+                binding.tvDate.setText("Days difference: " + differenceDays);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
+
         binding.BtnRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,5 +103,6 @@ public class RemoveItemFragment extends Fragment implements OnItemRemovedListene
             public void run() {
                 navController.popBackStack();
             }
-        });    }
+        });
+    }
 }
